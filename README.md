@@ -1,6 +1,6 @@
-# generator-sequence [![Build Status](https://secure.travis-ci.org/IanLunn/generator-sequence.png?branch=master)](https://travis-ci.org/IanLunn/generator-sequence)
+# generator-sequence
 
-> [Yeoman](http://yeoman.io) generator
+> [Yeoman](http://yeoman.io) generator for scaffolding [Sequence.js](http://sequencejs.com/) themes.
 
 
 ## Getting Started
