@@ -21,6 +21,27 @@ module.exports = function(grunt) {
       }
     },
 
+    version: {
+      js: {
+        options: {
+          prefix: 'Version:\\s*'
+        },
+        src: ['scripts/**/*.js', '!scripts/**/*.min.js']
+      },
+      css: {
+        options: {
+          prefix: 'Version:\\s*'
+        },
+        src: ['scss/*.scss', 'css/*.css', 'css/*.min.css']
+      },
+      json: {
+        options: {
+          prefix: '"version":\\s"*'
+        },
+        src: ['bower.json']
+      }
+    },
+
     sass: {
       options: {
         style: 'expanded'
@@ -89,7 +110,15 @@ module.exports = function(grunt) {
       // Watch JS
       js: {
         files: ['scripts/**/*.js', '!**/*.min.js', '!third-party/**/*.js'],
-        tasks: ['uglify', 'copy'],
+        tasks: ['uglify', 'copy', 'version:js'],
+        options: {
+          spawn: false,
+        }
+      },
+
+      json: {
+        files: ['package.json'],
+        tasks: ['version'],
         options: {
           spawn: false,
         }
@@ -97,7 +126,7 @@ module.exports = function(grunt) {
 
       scss: {
         files: ['**/*.scss'],
-        tasks: ['sass', 'autoprefixer', 'cssmin'],
+        tasks: ['sass', 'autoprefixer', 'cssmin', 'version:css'],
         options: {
           spawn: false,
         }
@@ -106,7 +135,7 @@ module.exports = function(grunt) {
       // Watch CSS
       css: {
         files: ['**/*.css', '!**/*.min.css'],
-        tasks: ['autoprefixer', 'cssmin'],
+        tasks: ['autoprefixer', 'cssmin', 'version:css'],
         options: {
           spawn: false,
         }
@@ -128,6 +157,6 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['watch']);
 
-  grunt.registerTask('build', ['copy', 'sass', 'uglify', 'cssmin', 'autoprefixer']);
+  grunt.registerTask('build', ['copy', 'sass', 'uglify', 'cssmin', 'autoprefixer', 'version']);
 
 };
