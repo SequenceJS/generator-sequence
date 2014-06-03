@@ -22,7 +22,10 @@
   "keywords": [
     "yeoman-generator",
     "sequence-generator",
-    "sequence"
+    "sequence",
+    "sequence.js",
+    "sequence themes",
+    "animation framework"
   ],
   "dependencies": {
     "yeoman-generator": "~0.16.0",
