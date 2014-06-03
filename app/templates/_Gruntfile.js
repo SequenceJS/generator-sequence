@@ -26,13 +26,13 @@ module.exports = function(grunt) {
         options: {
           prefix: 'Version:\\s*'
         },
-        src: ['scripts/**/*.js', '!scripts/**/*.min.js']
+        src: ['scripts/**/sequence-theme*.js', '!scripts/**/*.min.js']
       },
       css: {
         options: {
           prefix: 'Version:\\s*'
         },
-        src: ['scss/*.scss', 'css/*.css', 'css/*.min.css']
+        src: ['scss/**/sequence-theme*.scss', 'css/**/sequence-theme*.css', '!css/**/*.min.css']
       },
       json: {
         options: {
