@@ -15,6 +15,8 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
+        {src: ['bower_components/sequencejs/scripts/sequence.min.js'], dest: 'scripts/sequence.min.js'},
+        {src: ['bower_components/sequencejs/DOCUMENTATION.md'], dest: 'DOCUMENTATION.md'},
           {src: ['bower_components/hammerjs/hammer.min.js'], dest: 'scripts/third-party/hammer.min.js'},
           {src: ['bower_components/imagesloaded/imagesloaded.pkgd.min.js'], dest: 'scripts/third-party/imagesloaded.pkgd.min.js'},
         ]

@@ -80,7 +80,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       type: 'list',
       name: 'themeLayout',
       message: 'What base theme would you like to begin with?',
-      choices: ['Basic', 'Layered (Absolute)', 'None'],
+      choices: ['Layered/Absolute (Use this if you don\'t want to animate the canvas)', 'Basic', 'None'],
       default: 'Basic'
     },
 
@@ -482,11 +482,6 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     this.copy('gitignore', '.gitignore');
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
-
-    /** Temporary until Sequence v2 is made publicly open-source and can be
-       downloaded via the bower.json file instead **/
-    this.copy('sequence.js', 'scripts/sequence.js');
-    this.copy('sequence.min.js', 'scripts/sequence.min.js');
 
     // Copy the Gruntfile
     this.template('_Gruntfile.js', 'Gruntfile.js');
