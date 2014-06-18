@@ -80,7 +80,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       type: 'list',
       name: 'themeLayout',
       message: 'What base theme would you like to begin with?',
-      choices: ['Layered/Absolute (Use this if you don\'t want to animate the canvas)', 'Basic', 'None'],
+      choices: ['Basic', 'Layered (Absolute)', 'None'],
       default: 'Basic'
     },
 
