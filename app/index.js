@@ -59,7 +59,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       name: 'themeName',
       message: 'What do you want to call your Sequence theme?',
       default: function() {
-        var themeName = process.cwd().split("/").pop();
+        var themeName = process.cwd().split(path.sep).pop();
 
         themeName = themeName.replace("-", " ");
         themeName =  themeName.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
