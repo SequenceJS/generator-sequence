@@ -44,7 +44,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     });
 
     this.on('dependenciesInstalled', function() {
-      this.spawnCommand('grunt', ['build']);
+      this.spawnCommand('grunt', ['run']);
     });
   },
 
@@ -268,7 +268,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       readme += "\n\n";
     }
 
-    readme += themeName + " is powered by [Sequence.js](http://sequencejs.com/) - The open-source CSS animation framework.";
+    readme += themeName + " is powered by [Sequence.js](http://sequencejs.com/) - CSS animation framework for creating responsive sliders, presentations, banners, and other step-based applications.";
     readme += "\n\n";
 
     if(authorName !== "") {
@@ -480,8 +480,6 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
     this.copy('gitignore', '.gitignore');
-    this.copy('editorconfig', '.editorconfig');
-    this.copy('jshintrc', '.jshintrc');
 
     // Copy the Gruntfile
     this.template('_Gruntfile.js', 'Gruntfile.js');

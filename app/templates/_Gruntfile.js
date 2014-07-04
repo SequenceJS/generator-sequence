@@ -1,3 +1,12 @@
+'use strict';
+
+var LIVERELOAD_PORT = 35729;
+var SERVER_PORT = 8000;
+var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
+var mountFolder = function (connect, dir) {
+    return connect.static(require('path').resolve(dir));
+};
+
 module.exports = function(grunt) {
 
   require('time-grunt')(grunt);
@@ -12,13 +21,39 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    connect: {
+			options: {
+				port: SERVER_PORT,
+				hostname: 'localhost'
+			},
+			livereload: {
+				options: {
+					base: '/',
+					middleware: function (connect) {
+						return [
+							lrSnippet,
+							mountFolder(connect, '')
+						];
+					}
+				}
+			}
+		},
+
+		open: {
+			server: {
+				path: 'http://localhost:' + SERVER_PORT
+			}
+		},
+
     copy: {
       main: {
         files: [
+        {src: ['bower_components/sequencejs/scripts/sequence.js'], dest: 'scripts/sequence.js'},
         {src: ['bower_components/sequencejs/scripts/sequence.min.js'], dest: 'scripts/sequence.min.js'},
         {src: ['bower_components/sequencejs/DOCUMENTATION.md'], dest: 'DOCUMENTATION.md'},
-          {src: ['bower_components/hammerjs/hammer.min.js'], dest: 'scripts/third-party/hammer.min.js'},
-          {src: ['bower_components/imagesloaded/imagesloaded.pkgd.min.js'], dest: 'scripts/third-party/imagesloaded.pkgd.min.js'},
+          {src: ['bower_components/hammerjs/hammer.min.js'], dest: 'scripts/hammer.min.js'},
+          {src: ['bower_components/imagesloaded/imagesloaded.pkgd.min.js'], dest: 'scripts/imagesloaded.pkgd.min.js'},
+          {src: ['bower_components/respond/dest/respond.min.js'], dest: 'scripts/respond.min.js'},
         ]
       }
     },
@@ -97,7 +132,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'scripts/',
-          src: ['*.js', '!sequence.js', '!*.min.js'],
+          src: ['*.js', '!*.min.js'],
           dest: 'scripts/',
           rename: function(dest, src) {
             return dest + src.replace(".js", ".min.js");
@@ -109,10 +144,15 @@ module.exports = function(grunt) {
     // Watch JS, CSS, and HTML for changes, and run tasks accordingly
     watch: {
 
+      options: {
+        nospawn: true,
+        livereload: true
+      },
+
       // Watch JS
       js: {
         files: ['scripts/**/*.js', '!**/*.min.js', '!third-party/**/*.js'],
-        tasks: ['uglify', 'copy', 'version:js'],
+        tasks: ['uglify', 'version:js'],
         options: {
           spawn: false,
         }
@@ -156,9 +196,20 @@ module.exports = function(grunt) {
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  // Default task(s).
-  grunt.registerTask('default', ['watch']);
+  // Watch for local development
+  grunt.registerTask('default', [
+    'connect:livereload',
+    'open',
+    'watch'
+  ]);
 
-  grunt.registerTask('build', ['copy', 'sass', 'uglify', 'cssmin', 'autoprefixer', 'version']);
-
+  // Manual compile
+  grunt.registerTask('run', [
+    'version',
+    'copy',
+    'sass',
+    'autoprefixer',
+    'cssmin',
+    'uglify'
+  ]);
 };
