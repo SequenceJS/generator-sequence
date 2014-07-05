@@ -199,7 +199,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       this.props = props;
       this.themeName = props.themeName;
       this.themeSlug = this.themeName.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-      this.themeOpen = props.themeOpen;
+      this.themeOpen = (props.themeOpen === "Yes") ? true: false;
       this.themeLayout = props.themeLayout;
       this.themeUrl = props.themeUrl;
       this.themeDescription = props.themeDescription;

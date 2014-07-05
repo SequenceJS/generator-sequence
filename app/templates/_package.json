@@ -1,7 +1,16 @@
 {
   "name": "<%= _.slugify(themeName) %>",
+  "description": "<%= themeDescription %>",
   "version": "0.1.0",
+  "license": "<%= themeLicense %>",
+  "homepage": "<%= themeUrl %>",
+  "private": <%= themeOpen %>,
   "author": "<%= themeAuthorName %>",
+  "keywords": [
+    "sequence",
+    "sequencejs",
+    "sequence theme"
+  ],
   "devDependencies": {
     "grunt": "~0.4.1",
     "connect-livereload": "~0.3.2",
