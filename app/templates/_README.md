@@ -1,46 +1,18 @@
-readme += "# " + themeName;
-readme += "\n\n";
+# <%= readme.themeName %>
 
-if(description !== "" && themeOpen === "Yes") {
-  readme += "> " + description;
-  readme += "\n\n";
-}
+<%= readme.themeDescription %>
 
-readme += themeName + " is powered by [Sequence.js](http://sequencejs.com/) - The open-source CSS animation framework.";
-readme += "\n\n";
+<%= themeName %> is powered by [Sequence](http://sequencejs.com/) - The open-source CSS animation framework for creating responsive sliders, presentations, banners, and other step-based applications.";
 
-if(authorName !== "") {
+<%= readme.authorDetails %>
+<%= readme.authorGithub %>
+<%= readme.authorTwitter %>
+<%= readme.authorEmail %>  
 
-  if(authorUrl !== "") {
-    readme += "Author: [" + authorName + "](" + authorUrl + ")  ";
-  }else{
-    readme += "Author: " + authorName + "  ";
-  }
-
-  readme += "\n";
-}
-
-if(authorEmail !== "") {
-  readme += "Email: [" + authorEmail + "](mailto://" + authorEmail + ")  ";
-  readme += "\n";
-}
-
-if(authorGitHub !== "") {
-  readme += "GitHub: [@" + authorGitHub + "](https://github.com/" + authorGitHub + ")  ";
-  readme += "\n";
-}
-
-if(authorTwitter !== "") {
-  readme += "Twitter: [@" + authorTwitter + "](https://twitter.com/" + authorTwitter + ")  ";
-  readme += "\n";
-}
-if(authorName !== "" || authorEmail !== "" || authorGitHub !== "" || authorTwitter !== "") {
-  readme += "\n";
-}
 
 if(themeLicense !== "") {
 
-  if(themeOpen === "Yes" && themeLicense !== "None") {
+  if(themeOpen === true && themeLicense !== "None") {
 
     var themeLicenseUrl;
 
@@ -71,11 +43,11 @@ if(themeLicense !== "") {
   readme += "\n\n";
 }
 
-if(themeOpen === "Yes") {
+if(themeOpen === true) {
   readme += "## How to Use";
   readme += "\n\n";
 
-  readme += "1. Move the `" + themeSlug + "` directory to the same directory as the page you'd like the theme to appear on."
+  readme += "1. From the `" + themeSlud + "` folder, copy `css`, `images`, `scripts`, and `scss` Move the `" + themeSlug + "` directory to the same directory as the page you'd like the theme to appear on."
   readme += "\n";
   readme += "2. Add the stylesheet within the `<head></head>` tags on your page below existing stylesheets, using the following:";
   readme += "\n";
@@ -87,9 +59,9 @@ if(themeOpen === "Yes") {
   readme += "\n";
   readme += "```";
   readme += "\n";
-  readme += '<script src="scripts/third-party/imagesloaded.pkgd.min.js"></script>';
+  readme += '<script src="scripts/imagesloaded.pkgd.min.js"></script>';
   readme += "\n";
-  readme += '<script src="scripts/third-party/hammer.min.js"></script>';
+  readme += '<script src="scripts/hammer.min.js"></script>';
   readme += "\n";
   readme += '<script src="scripts/sequence.min.js"></script>';
   readme += "\n";
@@ -105,7 +77,7 @@ if(themeOpen === "Yes") {
   readme += "\n\n";
 }
 
-if(themeOpen === "Yes" && (themeSupportEmail !== "" || themeSupportUrl !== "")) {
+if(themeOpen === true && (themeSupportEmail !== "" || themeSupportUrl !== "")) {
   readme += "## Support";
   readme += "\n\n";
 

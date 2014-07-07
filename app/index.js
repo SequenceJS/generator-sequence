@@ -88,7 +88,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       name: 'themeDescription',
       message: 'Briefly describe your theme:',
       when: function(answers) {
-        if(answers.themeOpen === 'Yes') {
+        if(answers.themeOpen === "Yes") {
           return true;
         }
       }
@@ -98,7 +98,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       name: 'themeUrl',
       message: 'Theme URL:',
       when: function(answers) {
-        if(answers.themeOpen === 'Yes') {
+        if(answers.themeOpen === "Yes") {
           return true;
         }
       }
@@ -106,24 +106,39 @@ var SequenceGenerator = yeoman.generators.Base.extend({
 
     {
       name: 'themeAuthorName',
-      message: 'Author Name:'
+      message: 'Author Name:',
+      when: function(answers) {
+        if(answers.themeOpen === "Yes") {
+          return true;
+        }
+      }
     },
 
     {
       name: 'themeAuthorEmail',
-      message: 'Author Email:'
+      message: 'Author Email:',
+      when: function(answers) {
+        if(answers.themeOpen === "Yes") {
+          return true;
+        }
+      }
     },
 
     {
       name: 'themeAuthorUrl',
-      message: 'Author Website:'
+      message: 'Author Website:',
+      when: function(answers) {
+        if(answers.themeOpen === "Yes") {
+          return true;
+        }
+      }
     },
 
     {
       name: 'themeAuthorTwitter',
       message: 'Twitter Username:',
       when: function(answers) {
-        if(answers.themeOpen === 'Yes') {
+        if(answers.themeOpen === "Yes") {
           return true;
         }
       }
@@ -132,13 +147,8 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     {
       name: 'themeAuthorGitHub',
       message: 'Github Username:',
-      default: function(answers) {
-        if(answers.themeAuthorTwitter !== undefined) {
-          return answers.themeAuthorTwitter.replace("@", "");
-        }
-      },
       when: function(answers) {
-        if(answers.themeOpen === 'Yes') {
+        if(answers.themeOpen === "Yes") {
           return true;
         }
       }
@@ -151,7 +161,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       choices: ["Apache 2.0", "GNU (GPL)", "GNU (LGPL)", "MIT", "Other", "None"],
       default: 'MIT',
       when: function(answers) {
-        if(answers.themeOpen === 'Yes') {
+        if(answers.themeOpen === "Yes") {
           return true;
         }
       }
@@ -161,45 +171,19 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       name: 'themeLicenseUrl',
       message: 'License URL:',
       when: function(answers) {
-        if(answers.themeOpen === 'Yes' && answers.themeLicense === "Other") {
+        if(answers.themeOpen === "Yes" && answers.themeLicense === "Other") {
           return true;
         }
       }
-    },
-
-    {
-      name: 'themeSupportEmail',
-      message: 'Support Email:',
-      default: function(answers) {
-        return answers.themeAuthorEmail;
-      },
-      when: function(answers) {
-        if(answers.themeOpen === 'Yes') {
-          return true;
-        }
-      }
-    },
-
-    {
-      name: 'themeSupportUrl',
-      message: 'Support Website:',
-      default: function(answers) {
-        return answers.themeAuthorUrl;
-      },
-      when: function(answers) {
-        if(answers.themeOpen === 'Yes') {
-          return true;
-        }
-      }
-    },
-
+    }
     ];
 
     this.prompt(prompts, function (props) {
       this.props = props;
       this.themeName = props.themeName;
       this.themeSlug = this.themeName.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
-      this.themeOpen = (props.themeOpen === "Yes") ? false: true;
+      this.themeOpen = props.themeOpen;
+      this.themePrivate = (props.themeOpen === "Yes") ? false: true;
       this.themeLayout = props.themeLayout;
       this.themeUrl = props.themeUrl;
       this.themeDescription = props.themeDescription;
@@ -210,10 +194,9 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       this.themeAuthorGitHub = props.themeAuthorGitHub;
       this.themeLicense = props.themeLicense;
       this.themeLicenseUrl = props.themeLicenseUrl;
-      this.themeSupportEmail = props.themeSupportEmail;
-      this.themeSupportUrl = props.themeSupportUrl;
+      this.readme = {};
 
-      var themeLayout = this.themeLayout;
+      var themeLayout = props.themeLayout;
 
       if(themeLayout === 'Layered (Absolute)') {
         themeLayout = 'Layered';
@@ -231,183 +214,93 @@ var SequenceGenerator = yeoman.generators.Base.extend({
 
   createReadMe: function() {
 
-    var readme = '',
-        themeName = this.themeName,
-        themeSlug = this.themeSlug,
+    var readme = {};
 
-        themeOpen = this.themeOpen,
+    readme.themeName = this.themeName;
+    readme.themeDescription = "> Description of theme";
+    readme.themeSlug = this.themeSlug;
+    readme.themeUrl = "";
+    readme.authorName = "";
+    readme.authorDetails = "";
+    readme.authorEmail = "";
+    readme.licenseDetails = "";
 
-        description = this.themeDescription,
+    if (this.themeOpen === "Yes") {
 
-        authorName = this.themeAuthorName,
-        authorEmail = this.themeAuthorEmail,
-        authorUrl = this.themeAuthorUrl,
-
-        authorGitHub = '',
-        authorTwitter = '',
-
-        themeLicense = this.themeLicense,
-
-        themeSupportEmail = this.themeSupportEmail,
-        themeSupportUrl = this.themeSupportUrl;
-
-
-    if(this.themeAuthorGitHub !== undefined) {
-      authorGitHub = this.themeAuthorGitHub.replace("@", "");
-    }
-
-    if(this.themeAuthorTwitter !== undefined) {
-      authorTwitter = this.themeAuthorTwitter.replace("@", "");
-    }
-
-    readme += "# " + themeName;
-    readme += "\n\n";
-
-    if(description !== "" && themeOpen === "Yes") {
-      readme += "> " + description;
-      readme += "\n\n";
-    }
-
-    readme += themeName + " is powered by [Sequence.js](http://sequencejs.com/) - CSS animation framework for creating responsive sliders, presentations, banners, and other step-based applications.";
-    readme += "\n\n";
-
-    if(authorName !== "") {
-
-      if(authorUrl !== "") {
-        readme += "Author: [" + authorName + "](" + authorUrl + ")  ";
-      }else{
-        readme += "Author: " + authorName + "  ";
+      if (this.themeDescription !== "") {
+        readme.themeDescription = "> " + this.themeDescription;
       }
 
-      readme += "\n";
-    }
+      if (this.themeUrl !== "") {
+        readme.themeUrl = "Theme URL: [" + this.themeUrl + "](" + this.themeUrl + ")";
+      }
 
-    if(authorEmail !== "") {
-      readme += "Email: [" + authorEmail + "](mailto://" + authorEmail + ")  ";
-      readme += "\n";
-    }
+      if (this.themeAuthorName !== "" || this.themeAuthorUrl !== "" || this.themeAuthorGitHub !== "" || this.themeAuthorTwitter !== "" || this.themeAuthorEmail !== "") {
+        readme.authorDetails += "## Author" + "\n\n";
+      }
 
-    if(authorGitHub !== "") {
-      readme += "GitHub: [@" + authorGitHub + "](https://github.com/" + authorGitHub + ")  ";
-      readme += "\n";
-    }
+      if (this.themeAuthorName !== "") {
 
-    if(authorTwitter !== "") {
-      readme += "Twitter: [@" + authorTwitter + "](https://twitter.com/" + authorTwitter + ")  ";
-      readme += "\n";
-    }
-    if(authorName !== "" || authorEmail !== "" || authorGitHub !== "" || authorTwitter !== "") {
-      readme += "\n";
-    }
+        if (this.themeAuthorUrl !== "") {
+          readme.authorDetails += "Name: [" + this.themeAuthorName + "](" + this.themeAuthorUrl + ")  ";
+        } else {
+          readme.authorDetails += "Name: " + this.themeAuthorName + "  ";
+        }
+      } else if (this.themeAuthorUrl !== "") {
+          readme.authorDetails += "Website: [" + this.themeAuthorUrl + "](" + this.themeAuthorUrl + ")  ";
+      }
 
-    if(themeLicense !== "") {
+      if (this.themeAuthorGitHub !== "") {
+        readme.authorGitHub = "Github: [@" + this.themeAuthorGitHub.replace("@", "") + "](https://github.com/" + this.themeAuthorGitHub.replace("@", "") + ")  ";
+      }
 
-      if(themeOpen === "Yes" && themeLicense !== "None") {
+      if(this.themeAuthorTwitter !== "") {
+        readme.authorTwitter = "Twitter: [@" + this.themeAuthorTwitter.replace("@", "") + "](https://twitter.com/" + this.themeAuthorTwitter.replace("@", "") + ")  ";
+      }
 
-        var themeLicenseUrl;
+      if (this.themeAuthorEmail !== "") {
+        readme.authorEmail = "Email: [" + this.themeAuthorEmail + "](mailto://" + this.themeAuthorEmail + ")  ";
+      }
 
-        if(themeLicense !== "Other") {
-          themeLicenseUrl = getLicenseUrl(themeLicense);
-        }else{
-          themeLicenseUrl = this.props.themeLicenseUrl;
+      if (this.themeLicense !== "") {
+
+        if (this.themeOpen === "Yes" && this.themeLicense !== "None") {
+
+          var themeLicenseUrl;
+
+          readme.licenseDetails = "## " + this.themeName + " License\n\n";
+
+          if (this.themeLicense !== "Other") {
+            themeLicenseUrl = getLicenseUrl(this.themeLicense);
+          } else {
+            themeLicenseUrl = this.props.themeLicenseUrl;
+          }
+
+          if (this.themeLicense === "Other" && this.themeLicenseUrl !== "") {
+            readme.licenseDetails += "License information [here](" + this.themeLicenseUrl + ").";
+          } else if(this.themeLicense === "Other") {
+            readme.licenseDetails += "License information here.";
+          } else {
+            readme.licenseDetails += this.themeName + " is made available under a [" + this.themeLicense + " license](" + themeLicenseUrl + ").";
+          }
         }
 
-        if(themeLicense === "Other" && themeLicenseUrl !== "") {
-          readme += "License: [" + themeLicense + "](" + themeLicenseUrl + ")";
-        }else if(themeLicense === "Other") {
-          readme += "License: " + themeLicense;
-        }else{
-          readme += "License: [" + themeLicense + "](" + themeLicenseUrl + ")";
+        var d = new Date();
+        var year = d.getFullYear();
+
+        readme.year = "Copyright © " + year;
+
+        if (this.themeAuthorName !== "" && this.themeAuthorUrl !== "") {
+          readme.copyrightHolder = " [" + this.themeAuthorName + "](" + this.themeAuthorUrl + ")";
+        } else if (this.themeAuthorName !== "") {
+          readme.copyrightHolder = " " + this.themeAuthorName;
         }
-
-        readme += "\n\n";
       }
-
-      var d = new Date();
-      var year = d.getFullYear();
-      readme += "Copyright (c) " + year;
-
-      if(authorName !== ""){
-        readme += " " + authorName;
-      };
-      readme += "\n\n";
     }
 
-    if(themeOpen === "Yes") {
-      readme += "## Getting Started";
-      readme += "\n\n";
 
-      readme += "1. Move the `" + themeSlug + "` directory to the same directory as the page you'd like the theme to appear on."
-      readme += "\n";
-      readme += "2. Add the stylesheet within the `<head></head>` tags on your page below existing stylesheets, using the following:";
-      readme += "\n";
-      readme += '`<link rel="stylesheet" href="' + themeSlug + '/css/sequence-theme.' + themeSlug + '.css" />`';
-      readme += "\n";
-      readme += "3. From index.html in the downloaded theme, copy everything inside the <body></body> tags, then paste into the page you'd like the theme to appear on.";
-      readme += "\n";
-      readme += "4. Add a reference to the Sequence library, its third-party dependencies, and the theme options just before the closing `</body>` element on your page:";
-      readme += "\n";
-      readme += "```javascript";
-      readme += "\n";
-      readme += '<script src="scripts/third-party/imagesloaded.pkgd.min.js"></script>';
-      readme += "\n";
-      readme += '<script src="scripts/third-party/hammer.min.js"></script>';
-      readme += "\n";
-      readme += '<script src="scripts/sequence.min.js"></script>';
-      readme += "\n";
-      readme += '<script src="scripts/sequence-theme.' + themeSlug + '.js"></script>';
-      readme += "\n";
-      readme += "```";
-      readme += "\n";
-      readme += "5. From index.html in the downloaded theme, copy everything inside the <body></body> tags, then paste into the page you'd like the theme to appear on.";
-      readme += "\n";
-      readme += "6. Save your file and upload newly added/modified files to your web server. You're done!";
-      readme += "\n\n";
-      readme += "A theme's options can be changed in `scripts/sequence-theme." + themeSlug + ".js`. See Options in the [documentation](http://www.sequencejs.com/developers/documentation/).";
-      readme += "\n\n";
-    }
 
-    if(themeOpen === "Yes" && (themeSupportEmail !== "" || themeSupportUrl !== "")) {
-      readme += "## Support";
-      readme += "\n\n";
 
-      readme += "For theme support, please use the following contact details:"
-      readme += "\n\n";
-
-      if(themeSupportEmail !== "") {
-        readme += "Email: [" + themeSupportEmail + "](mailto://" + themeSupportEmail + ")  ";
-        readme += "\n";
-      }
-
-      if(themeSupportUrl !== "") {
-        readme += "Website: [" + themeSupportUrl + "](" + themeSupportUrl + ")";
-        readme += "\n";
-      }
-
-      readme += "\n";
-    }
-
-    readme += "## Sequence.js License"
-    readme += "\n\n";
-
-    readme += "The [Sequence.js](http://sequencejs.com/) library is made available under the following open-source [MIT license](http://opensource.org/licenses/MIT):";
-    readme += "\n\n";
-
-    readme += "> Copyright (c) 2014 Ian Lunn Design Limited";
-    readme += "\n\n";
-
-    readme += "> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.";
-    readme += "\n\n";
-
-    readme += "> THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.";
-    readme += "\n\n";
-
-    readme += "Sequence themes are made available under their own licenses. Please respect them accordingly.";
-    readme += "\n\n";
-
-    readme += "## Release History";
-    readme += "\n";
-    readme += "*Nothing yet*";
 
     return readme;
   },
@@ -425,9 +318,9 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     this.optionFile.copyright = 'Copyright (c) ';
 
     if(this.themeDescription !== undefined && this.themeDescription !== '') {
-      this.optionFile.desc += this.themeDescription + '\n * \n * ' + 'Powered by Sequence.js - The open-source CSS animation framework.';
+      this.optionFile.desc += this.themeDescription + '\n * \n * ' + 'Powered by Sequence.js - The open-source CSS animation framework for creating responsive sliders, presentations, banners, and other step-based applications.';
     }else{
-      this.optionFile.desc += 'Powered by Sequence.js - The open-source CSS animation framework.';
+      this.optionFile.desc += 'Powered by Sequence.js - The open-source CSS animation framework for creating responsive sliders, presentations, banners, and other step-based applications.';
     }
 
     if(this.themeAuthorName !== '') {
@@ -470,16 +363,22 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     this.mkdir('scss/partials');
     this.mkdir('scripts');
 
-    // Create the README
-    this.write('README.md', this.createReadMe());
-
     // Setup base theme
     this.createBaseTheme();
+
+    // Create the README
+    this.readme = this.createReadMe();
 
     // Copy the package and bower files
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
     this.copy('gitignore', '.gitignore');
+
+    if (this.themePrivate === false) {
+      this.template('_README-public.md', 'README.md');
+    } else {
+      this.template('_README-private.md', 'README.md');
+    }
 
     // Copy the Gruntfile
     this.template('_Gruntfile.js', 'Gruntfile.js');

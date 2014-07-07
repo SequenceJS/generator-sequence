@@ -50,7 +50,6 @@ module.exports = function(grunt) {
         files: [
         {src: ['bower_components/sequencejs/scripts/sequence.js'], dest: 'scripts/sequence.js'},
         {src: ['bower_components/sequencejs/scripts/sequence.min.js'], dest: 'scripts/sequence.min.js'},
-        {src: ['bower_components/sequencejs/DOCUMENTATION.md'], dest: 'DOCUMENTATION.md'},
           {src: ['bower_components/hammerjs/hammer.min.js'], dest: 'scripts/hammer.min.js'},
           {src: ['bower_components/imagesloaded/imagesloaded.pkgd.min.js'], dest: 'scripts/imagesloaded.pkgd.min.js'},
           {src: ['bower_components/respond/dest/respond.min.js'], dest: 'scripts/respond.min.js'},
@@ -63,13 +62,13 @@ module.exports = function(grunt) {
         options: {
           prefix: 'Version:\\s*'
         },
-        src: ['scripts/**/sequence-theme*.js', '!scripts/**/*.min.js']
+        src: ['scripts/**/sequence-theme*.js']
       },
       css: {
         options: {
           prefix: 'Version:\\s*'
         },
-        src: ['scss/**/sequence-theme*.scss', 'css/**/sequence-theme*.css', '!css/**/*.min.css']
+        src: ['scss/**/sequence-theme*.scss', 'css/**/sequence-theme*.css']
       },
       json: {
         options: {
