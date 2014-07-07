@@ -86,72 +86,37 @@ var SequenceGenerator = yeoman.generators.Base.extend({
 
     {
       name: 'themeDescription',
-      message: 'Briefly describe your theme:',
-      when: function(answers) {
-        if(answers.themeOpen === "Yes") {
-          return true;
-        }
-      }
+      message: 'Briefly describe your theme:'
     },
 
     {
       name: 'themeUrl',
-      message: 'Theme URL:',
-      when: function(answers) {
-        if(answers.themeOpen === "Yes") {
-          return true;
-        }
-      }
+      message: 'Theme URL:'
     },
 
     {
       name: 'themeAuthorName',
-      message: 'Author Name:',
-      when: function(answers) {
-        if(answers.themeOpen === "Yes") {
-          return true;
-        }
-      }
+      message: 'Author Name:'
     },
 
     {
       name: 'themeAuthorEmail',
-      message: 'Author Email:',
-      when: function(answers) {
-        if(answers.themeOpen === "Yes") {
-          return true;
-        }
-      }
+      message: 'Author Email:'
     },
 
     {
       name: 'themeAuthorUrl',
-      message: 'Author Website:',
-      when: function(answers) {
-        if(answers.themeOpen === "Yes") {
-          return true;
-        }
-      }
+      message: 'Author Website:'
     },
 
     {
       name: 'themeAuthorTwitter',
-      message: 'Twitter Username:',
-      when: function(answers) {
-        if(answers.themeOpen === "Yes") {
-          return true;
-        }
-      }
+      message: 'Twitter Username:'
     },
 
     {
       name: 'themeAuthorGitHub',
-      message: 'Github Username:',
-      when: function(answers) {
-        if(answers.themeOpen === "Yes") {
-          return true;
-        }
-      }
+      message: 'Github Username:'
     },
 
     {
@@ -161,7 +126,20 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       choices: ["Apache 2.0", "GNU (GPL)", "GNU (LGPL)", "MIT", "Other", "None"],
       default: 'MIT',
       when: function(answers) {
-        if(answers.themeOpen === "Yes") {
+        if (answers.themeOpen === "Yes") {
+          return true;
+        }
+      }
+    },
+
+    {
+      type: 'list',
+      name: 'themeLicense',
+      message: 'License:',
+      choices: ["None (Private Use Only)", "Apache 2.0", "GNU (GPL)", "GNU (LGPL)", "MIT", "Other"],
+      default: 'None (Private Use Only)',
+      when: function(answers) {
+        if (answers.themeOpen !== "Yes") {
           return true;
         }
       }
@@ -171,7 +149,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
       name: 'themeLicenseUrl',
       message: 'License URL:',
       when: function(answers) {
-        if(answers.themeOpen === "Yes" && answers.themeLicense === "Other") {
+        if (answers.themeLicense === "Other") {
           return true;
         }
       }
@@ -225,82 +203,75 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     readme.authorEmail = "";
     readme.licenseDetails = "";
 
-    if (this.themeOpen === "Yes") {
-
-      if (this.themeDescription !== "") {
-        readme.themeDescription = "> " + this.themeDescription;
-      }
-
-      if (this.themeUrl !== "") {
-        readme.themeUrl = "Theme URL: [" + this.themeUrl + "](" + this.themeUrl + ")";
-      }
-
-      if (this.themeAuthorName !== "" || this.themeAuthorUrl !== "" || this.themeAuthorGitHub !== "" || this.themeAuthorTwitter !== "" || this.themeAuthorEmail !== "") {
-        readme.authorDetails += "## Author" + "\n\n";
-      }
-
-      if (this.themeAuthorName !== "") {
-
-        if (this.themeAuthorUrl !== "") {
-          readme.authorDetails += "Name: [" + this.themeAuthorName + "](" + this.themeAuthorUrl + ")  ";
-        } else {
-          readme.authorDetails += "Name: " + this.themeAuthorName + "  ";
-        }
-      } else if (this.themeAuthorUrl !== "") {
-          readme.authorDetails += "Website: [" + this.themeAuthorUrl + "](" + this.themeAuthorUrl + ")  ";
-      }
-
-      if (this.themeAuthorGitHub !== "") {
-        readme.authorGitHub = "Github: [@" + this.themeAuthorGitHub.replace("@", "") + "](https://github.com/" + this.themeAuthorGitHub.replace("@", "") + ")  ";
-      }
-
-      if(this.themeAuthorTwitter !== "") {
-        readme.authorTwitter = "Twitter: [@" + this.themeAuthorTwitter.replace("@", "") + "](https://twitter.com/" + this.themeAuthorTwitter.replace("@", "") + ")  ";
-      }
-
-      if (this.themeAuthorEmail !== "") {
-        readme.authorEmail = "Email: [" + this.themeAuthorEmail + "](mailto://" + this.themeAuthorEmail + ")  ";
-      }
-
-      if (this.themeLicense !== "") {
-
-        if (this.themeOpen === "Yes" && this.themeLicense !== "None") {
-
-          var themeLicenseUrl;
-
-          readme.licenseDetails = "## " + this.themeName + " License\n\n";
-
-          if (this.themeLicense !== "Other") {
-            themeLicenseUrl = getLicenseUrl(this.themeLicense);
-          } else {
-            themeLicenseUrl = this.props.themeLicenseUrl;
-          }
-
-          if (this.themeLicense === "Other" && this.themeLicenseUrl !== "") {
-            readme.licenseDetails += "License information [here](" + this.themeLicenseUrl + ").";
-          } else if(this.themeLicense === "Other") {
-            readme.licenseDetails += "License information here.";
-          } else {
-            readme.licenseDetails += this.themeName + " is made available under a [" + this.themeLicense + " license](" + themeLicenseUrl + ").";
-          }
-        }
-
-        var d = new Date();
-        var year = d.getFullYear();
-
-        readme.year = "Copyright © " + year;
-
-        if (this.themeAuthorName !== "" && this.themeAuthorUrl !== "") {
-          readme.copyrightHolder = " [" + this.themeAuthorName + "](" + this.themeAuthorUrl + ")";
-        } else if (this.themeAuthorName !== "") {
-          readme.copyrightHolder = " " + this.themeAuthorName;
-        }
-      }
+    if (this.themeDescription !== "") {
+      readme.themeDescription = "> " + this.themeDescription;
     }
 
+    if (this.themeUrl !== "") {
+      readme.themeUrl = "\nTheme URL: [" + this.themeUrl + "](" + this.themeUrl + ")\n";
+    }
 
+    if (this.themeAuthorName !== "" || this.themeAuthorUrl !== "" || this.themeAuthorGitHub !== "" || this.themeAuthorTwitter !== "" || this.themeAuthorEmail !== "") {
+      readme.authorDetails += "\n## Author" + "\n\n";
+    }
 
+    if (this.themeAuthorName !== "") {
 
+      if (this.themeAuthorUrl !== "") {
+        readme.authorDetails += "Name: [" + this.themeAuthorName + "](" + this.themeAuthorUrl + ")\n";
+      } else {
+        readme.authorDetails += "Name: " + this.themeAuthorName + "\n";
+      }
+    } else if (this.themeAuthorUrl !== "") {
+        readme.authorDetails += "Website: [" + this.themeAuthorUrl + "](" + this.themeAuthorUrl + ")\n";
+    }
+
+    if (this.themeAuthorGitHub !== "") {
+      readme.authorGitHub = "Github: [@" + this.themeAuthorGitHub.replace("@", "") + "](https://github.com/" + this.themeAuthorGitHub.replace("@", "") + ")\n";
+    }
+
+    if(this.themeAuthorTwitter !== "") {
+      readme.authorTwitter = "Twitter: [@" + this.themeAuthorTwitter.replace("@", "") + "](https://twitter.com/" + this.themeAuthorTwitter.replace("@", "") + ")\n";
+    }
+
+    if (this.themeAuthorEmail !== "") {
+      readme.authorEmail = "Email: [" + this.themeAuthorEmail + "](mailto://" + this.themeAuthorEmail + ")\n";
+    }
+
+    if (this.themeLicense !== "") {
+
+      readme.licenseDetails = "## " + this.themeName + " License\n\n";
+
+      if (this.themeLicense !== "None (Private Use Only)") {
+
+        var themeLicenseUrl;
+
+        if (this.themeLicense !== "Other") {
+          themeLicenseUrl = getLicenseUrl(this.themeLicense);
+        } else {
+          themeLicenseUrl = this.props.themeLicenseUrl;
+        }
+
+        if (this.themeLicense === "Other" && this.themeLicenseUrl !== "") {
+          readme.licenseDetails += "License information [here](" + this.themeLicenseUrl + ").\n\n";
+        } else if(this.themeLicense === "Other") {
+          readme.licenseDetails += "License information here.\n\n";
+        } else {
+          readme.licenseDetails += this.themeName + " is made available under a [" + this.themeLicense + " license](" + themeLicenseUrl + ").\n\n";
+        }
+      }
+
+      var d = new Date();
+      var year = d.getFullYear();
+
+      readme.year = "Copyright © " + year;
+
+      if (this.themeAuthorName !== "" && this.themeAuthorUrl !== "") {
+        readme.copyrightHolder = " [" + this.themeAuthorName + "](" + this.themeAuthorUrl + ")";
+      } else if (this.themeAuthorName !== "") {
+        readme.copyrightHolder = " " + this.themeAuthorName;
+      }
+    }
 
     return readme;
   },
@@ -373,12 +344,7 @@ var SequenceGenerator = yeoman.generators.Base.extend({
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
     this.copy('gitignore', '.gitignore');
-
-    if (this.themePrivate === false) {
-      this.template('_README-public.md', 'README.md');
-    } else {
-      this.template('_README-private.md', 'README.md');
-    }
+    this.template('_README.md', 'README.md');
 
     // Copy the Gruntfile
     this.template('_Gruntfile.js', 'Gruntfile.js');
