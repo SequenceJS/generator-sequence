@@ -12,8 +12,8 @@
     "sequence theme"
   ],
   "dependencies": {
-    "sequencejs": "^2.0.0-alpha.1",
-    "hammerjs": "1.1.3",
+    "sequencejs": "^2.0.0-alpha.6",
+    "hammerjs": "2.0.4",
     "imagesloaded": "3.1.5",
     "respond": "^1.4.2"
   }
