@@ -1,15 +1,26 @@
 {
-  "name": "<%= _.slugify(themeName) %>",
-  "description": "<%= themeDescription %>",
-  "version": "0.1.0",
-  "license": "<%= themeLicense %>",
-  "homepage": "<%= themeUrl %>",
-  "private": <%= themePrivate %>,
-  "author": "<%= themeAuthorName %>",
+  "name": "<%= properties.themeSlug %>",
+  "version": "0.0.0",
+  "description": "<%= properties.themeDescription %>",
+  "license": "<%= properties.themeLicense %>",
+  "homepage": "<%= properties.themeLink %>",
+  "private": <%= properties.themePrivate %>,
+  "author": "<%= properties.authorName %>",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": "",
+    "email": ""
+  },
   "keywords": [
     "sequence",
     "sequencejs",
-    "sequence theme"
+    "sequence.js",
+    "sequence theme",
+    "sequencejs theme",
+    "sequence.js theme"
   ],
   "devDependencies": {
     "grunt": "~0.4.1",

@@ -50,9 +50,8 @@ module.exports = function(grunt) {
         files: [
         {src: ['bower_components/sequencejs/scripts/sequence.js'], dest: 'scripts/sequence.js'},
         {src: ['bower_components/sequencejs/scripts/sequence.min.js'], dest: 'scripts/sequence.min.js'},
-          {src: ['bower_components/hammerjs/hammer.min.js'], dest: 'scripts/hammer.min.js'},
-          {src: ['bower_components/imagesloaded/imagesloaded.pkgd.min.js'], dest: 'scripts/imagesloaded.pkgd.min.js'},
-          {src: ['bower_components/respond/dest/respond.min.js'], dest: 'scripts/respond.min.js'},
+        {src: ['bower_components/hammerjs/hammer.min.js'], dest: 'scripts/hammer.min.js'},
+        {src: ['bower_components/imagesloaded/imagesloaded.pkgd.min.js'], dest: 'scripts/imagesloaded.pkgd.min.js'}
         ]
       }
     },
@@ -196,14 +195,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Watch for local development
-  grunt.registerTask('default', [
+  grunt.registerTask('serve', 'start the server and watch files', [
     'connect:livereload',
     'open',
     'watch'
   ]);
 
   // Manual compile
-  grunt.registerTask('run', [
+  grunt.registerTask('default', [
     'version',
     'copy',
     'sass',

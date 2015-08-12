@@ -1,14 +1,14 @@
 {
   "name": "generator-sequence",
-  "version": "0.2.7",
-  "description": "Yeoman generator for scaffolding Sequence themes",
+  "version": "2.0.0",
+  "description": "Yeoman generator for scaffolding Sequence.js themes",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "IanLunn/generator-sequence",
+  "repository": "SequenceJS/generator-sequence",
   "author": {
     "name": "Ian Lunn",
     "email": "hello@ianlunn.co.uk",
-    "url": "https://github.com/IanLunn"
+    "url": "http://ianlunn.co.uk/"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -24,7 +24,10 @@
     "sequence-generator",
     "sequence",
     "sequence.js",
+    "sequencejs",
     "sequence themes",
+    "sequence.js themes",
+    "sequencejs themes",
     "animation framework"
   ],
   "dependencies": {

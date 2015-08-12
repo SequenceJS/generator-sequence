@@ -1,20 +1,22 @@
 {
-  "name": "<%= _.slugify(themeName) %>",
-  "description": "<%= themeDescription %>",
-  "version": "0.1.0",
-  "license": "<%= themeLicense %>",
-  "homepage": "<%= themeUrl %>",
-  "private": <%= themePrivate %>,
-  "author": "<%= themeAuthorName %>",
+  "name": "<%= properties.themeSlug %>",
+  "description": "<%= properties.themeDescription %>",
+  "version": "0.0.0",
+  "license": "<%= properties.themeLicense %>",
+  "homepage": "<%= properties.themeLink %>",
+  "private": <%= properties.themePrivate %>,
+  "author": "<%= properties.themeAuthorName %>",
   "keywords": [
     "sequence",
     "sequencejs",
-    "sequence theme"
+    "sequence.js",
+    "sequence theme",
+    "sequencejs theme",
+    "sequence.js theme"
   ],
   "dependencies": {
-    "sequencejs": "^2.0.0-alpha.6",
+    "sequencejs": "latest",
     "hammerjs": "2.0.4",
-    "imagesloaded": "3.1.5",
-    "respond": "^1.4.2"
+    "imagesloaded": "3.1.5"
   }
 }
